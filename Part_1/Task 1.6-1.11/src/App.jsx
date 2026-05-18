@@ -14,11 +14,35 @@ const Button = (props) => (
     </button>
   )
 
-const Stats = (props) => (
-  <div>
-    {props.text} {props.count}
-  </div>
+const StatisticLine = (props) => (
+  <tr>
+    <td>{props.text}</td>
+    <td>{props.value}</td>
+  </tr>
 )
+
+const Statistics = (props) => {
+  if (props.good != 0 || props.neutral != 0 || props.bad != 0)
+    return (
+      <div>
+        <table>
+          <tbody>
+            <StatisticLine text={"Good"} value={props.good}/>
+            <StatisticLine text={"Neutral"} value={props.neutral}/>
+            <StatisticLine text={"Bad"} value={props.bad}/>
+            <StatisticLine text={"All"} value={props.all.good + props.all.neutral + props.all.bad}/>
+            <StatisticLine text={"Average"} value={props.avg}/>
+            <StatisticLine text={"Positive"} value={`${props.positive} %`}/>
+          </tbody>
+        </table>
+      </div>
+    )
+  return (
+    <div>
+      No feedback given
+    </div>
+  )
+}
 
 const App = () => {
   // tallenna napit omaan tilaansa
@@ -89,12 +113,7 @@ const App = () => {
       <Button onClick={() => handleNeutralClick()} text="Neutral"/>
       <Button onClick={() => handleBadClick()} text="Bad"/>
       <Header title={"Statistics"} />
-      <Stats text={"Good"} count={good}/>
-      <Stats text={"Neutral"} count={neutral}/>
-      <Stats text={"Bad"} count={bad}/>
-      <Stats text={"All"} count={all.good + all.neutral + all.bad}/>
-      <Stats text={"Average"} count={avg}/>
-      <Stats text={"Positive"} count={`${positive} %`}/>
+      <Statistics good={good} neutral={neutral} bad={bad} all={all} avg={avg} positive={positive}/>
     </div>
   )
 }
